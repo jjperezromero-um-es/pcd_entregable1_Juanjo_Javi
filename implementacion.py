@@ -60,20 +60,15 @@ class Asignatura:
 class Estudiante(Persona):
     def __init__(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
         super().__init__(dni, nombre, direccion, sexo)
-        if not isinstance(asignaturasMatriculadas, list):
-            raise TypeError("Las asignaturas matriculadas deben estar en una lista.")
-        for asignatura in asignaturasMatriculadas:
-            if not isinstance(asignatura, Asignatura):
-                raise ErrorDeAsignatura("Todos los elementos de la lista deben ser instancias de la clase Asignatura.")
         self.asignaturasMatriculadas = asignaturasMatriculadas
 
     def matricularAsignatura(self, asignatura):
-        if not isinstance(asignatura, Asignatura):
-            raise ErrorDeMatriculacion("El objeto a matricular debe ser una instancia de Asignatura.")
         self.asignaturasMatriculadas.append(asignatura)
+        return f"Se ha matriculado la asignatura {asignatura.getNombre()}"
 
     def eliminarAsignatura(self, asignatura):
         self.asignaturasMatriculadas.remove(asignatura)
+        return f"Se ha eliminado la asignatura {asignatura.getNombre()}"
 
     def getAsignaturasMatriculadas(self):
         return self.asignaturasMatriculadas
@@ -82,16 +77,9 @@ class Estudiante(Persona):
 class MiembroDepartamento(Persona):
     def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
         super().__init__(dni, nombre, direccion, sexo)
-        if departamento not in ["DIIC", "DITEC", "DIS"]:
-            raise ErrorDeValidacion("El departamento debe ser DIIC, DITEC o DIS.")
         self.departamento = departamento
-        if not isinstance(asignaturasImpartidas, list):
-            raise TypeError("Las asignaturas impartidas deben estar en una lista.")
-        for asignatura in asignaturasImpartidas:
-            if not isinstance(asignatura, Asignatura):
-                raise ErrorDeAsignatura("Todos los elementos de la lista deben ser instancias de la clase Asignatura.")
         self.asignaturasImpartidas = asignaturasImpartidas
-
+    
     def getAsignaturasImpartidas(self):
         return self.asignaturasImpartidas
     
@@ -99,17 +87,16 @@ class MiembroDepartamento(Persona):
         return self.departamento
     
     def cambiarDepartamento(self, nuevo_departamento):
-        if nuevo_departamento not in ["DIIC", "DITEC", "DIS"]:
-            raise ErrorDeValidacion("El departamento debe ser DIIC, DITEC o DIS.")
         self.departamento = nuevo_departamento
-
+        return f"El departamento ha cambiado a {nuevo_departamento}"
+    
     def impartirAsignatura(self, asignatura):
-        if not isinstance(asignatura, Asignatura):
-            raise ErrorDeMatriculacion("El objeto a impartir debe ser una instancia de Asignatura.")
         self.asignaturasImpartidas.append(asignatura)
+        return f"Se ha añadido la asignatura {asignatura.getNombre()} a las asignaturas impartidas"
 
     def eliminarAsignaturaImpartida(self, asignatura):
         self.asignaturasImpartidas.remove(asignatura)
+        return f"Se ha eliminado la asignatura {asignatura.getNombre()} de las asignaturas impartidas"
 
 
 class ProfesorTitular(MiembroDepartamento):
@@ -120,6 +107,9 @@ class ProfesorTitular(MiembroDepartamento):
     def getAreaDeInvestigacion(self):
         return self.areaDeInvestigacion
 
+    def __str__(self):
+        return super().__str__() + f", Área de Investigación: {self.areaDeInvestigacion}"
+
 
 class ProfesorAsociado(MiembroDepartamento):
     pass
@@ -128,28 +118,49 @@ class ProfesorAsociado(MiembroDepartamento):
 class Investigador(ProfesorTitular):
     pass
 
+# Aquí puedes incluir el bloque de pruebas proporcionado anteriormente.
+
+
         
 
    
     
-########PRUEBAS QUE LUEGO TENEMOS QUE BORRAR A LA HORA DE ENTREGAR EL TRABAJO FINAL IMPORTANTE####### 
+########PRUEBAS######## 
 if __name__ == "__main__":
+    # Creación de asignaturas
     matematicas = Asignatura("Matemáticas", "MAT101")
-    fisica = Asignatura("fisica", "FIS101")
-    estudiante1 = Estudiante("12345678A", "juan", "Calle A", "V", [matematicas, fisica])
-
-    #probamos si funciona bien al añadir y eliminar una asignatura
+    fisica = Asignatura("Física", "FIS101")
     lengua = Asignatura("Lengua", "LEN101")
-    print(estudiante1.matricularAsignatura(lengua))
+    historia = Asignatura("Historia", "HIS101")
 
+    # Creación de estudiantes
+    estudiante1 = Estudiante("33J", "Juanjo", "Avenida Juan Carlos 1", "V", [matematicas, fisica, lengua])
+    estudiante2 = Estudiante("66M", "M.Ángeles", "Calle Ponzoa", "M", [fisica, lengua, historia])
+
+    # Añadir y eliminar asignaturas para un estudiante
+    print(estudiante1.matricularAsignatura(historia))  
     print(estudiante1.eliminarAsignatura(lengua))
 
-    #probando cosas de los miembros de departamento
-    profesor = MiembroDepartamento("12345678A", "juan", "Calle A", "V", "DIIC", [matematicas, fisica])
-    print(profesor.impartirAsignatura(lengua))
+    # Creación de profesores y asignación de asignaturas
+    profesor1 = MiembroDepartamento("101P", "Carlos", "Calle 2", "V", "DIIC", [matematicas, lengua])
+    profesor2 = ProfesorTitular("102P", "Ana", "Calle 3", "M", "DITEC", [matematicas, lengua], "Historia Moderna")
 
-    print(profesor.eliminarAsignaturaImpartida(lengua))
+    # Añadir y eliminar asignaturas impartidas por un profesor
+    print(profesor2.impartirAsignatura(historia))
+    print(profesor2.eliminarAsignaturaImpartida(matematicas))  
 
-    print(profesor.getDepartamento())
-    print(profesor.cambiarDepartamento("DIS"))
-    print(profesor.getDepartamento())
+    # Gestión de departamentos
+    print(f"\nDepartamento inicial del profesor1: {profesor1.getDepartamento()}")
+    profesor1.cambiarDepartamento("DIS")  # Cambio de departamento, no se imprime el resultado
+    print(f"Nuevo departamento del profesor1: {profesor1.getDepartamento()}")
+
+    # Creación y gestión de un investigador
+    investigador1 = Investigador("201I", "Antonio", "Calle 4", "V", "DIIC", [fisica], "Física Cuántica")
+    print(f"Área de investigación del investigador1: {investigador1.getAreaDeInvestigacion()}")
+
+    # Mostrar información de los usuarios
+    print(f"\nEstudiante1: {estudiante1}")
+    print(f"Estudiante2: {estudiante2}")
+    print(f"Profesor1: {profesor1}")
+    print(f"Profesor2: {profesor2}")
+    print(f"Investigador1: {investigador1}")
