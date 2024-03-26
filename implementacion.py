@@ -103,8 +103,27 @@ class MiembroDepartamento(Persona):
 
 
 
+class ProfesorTitular(MiembroDepartamento):
+    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion):
+        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas)
+        self.areaDeInvestigacion = areaDeInvestigacion
+    
+    #funciones de la clase
+    def getAreaDeInvestigacion(self):
+            return self.areaDeInvestigacion
+    
 
+class ProfesorAsociado(MiembroDepartamento):
+    def init(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas):
+        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas)
 
+class investigador(ProfesorTitular):
+    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion):
+        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion)
+        
+
+   
+    
 ########PRUEBAS#######
 if __name__ == "__main__":
     matematicas = Asignatura("Matemáticas", "MAT101")
