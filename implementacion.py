@@ -7,6 +7,10 @@ class Persona:
             self.sexo = sexo
         else:
             raise ValueError("el sexo debe ser V(varon) o M(mujer)")
+    
+     
+    def __str__(self):
+        return f"Persona: {self.nombre}, DNI: {self.dni}, Dirección: {self.direccion}, Sexo: {self.sexo}"
         
     #funciones de la clase
     def getNombre(self):
@@ -26,6 +30,9 @@ class Asignatura:
     def __init__(self, nombre, codigo):
         self.nombre = nombre
         self.codigo = codigo
+        
+    def __str__(self):
+        return f"Asignatura: {self.nombre}, Código: {self.codigo}"
 
     #funciones de la clase
     def getNombre(self):
@@ -114,17 +121,17 @@ class ProfesorTitular(MiembroDepartamento):
     
 
 class ProfesorAsociado(MiembroDepartamento):
-    def init(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas):
+    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas):
         super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas)
 
-class investigador(ProfesorTitular):
+class Investigador(ProfesorTitular):
     def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion):
         super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion)
         
 
    
     
-########PRUEBAS#######
+########PRUEBAS QUE LUEGO TENEMOS QUE BORRAR A LA HORA DE ENTREGAR EL TRABAJO FINAL IMPORTANTE####### 
 if __name__ == "__main__":
     matematicas = Asignatura("Matemáticas", "MAT101")
     fisica = Asignatura("fisica", "FIS101")

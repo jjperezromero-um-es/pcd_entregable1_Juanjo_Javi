@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>12</zoom_level><element><id>UMLClass</id><coordinates><x>456</x><y>660</y><w>192</w><h>120</h></coordinates><panel_attributes>&lt;&lt;enum&gt;&gt;
+<diagram program="umletino" version="15.1"><zoom_level>12</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>456</x><y>660</y><w>192</w><h>120</h></coordinates><panel_attributes>&lt;&lt;enum&gt;&gt;
 Departamento
 --
 DIIC
@@ -29,7 +29,7 @@ bg=Orange</panel_attributes><additional_attributes></additional_attributes></ele
 -nombre:str
 -dni:str
 -dirección:str
--sexo:char(V/M)
+-sexo:Sexo
 --
 +getNombre():str
 +getDNI():str
@@ -59,4 +59,12 @@ m1=0..n
 m2=1</panel_attributes><additional_attributes>530;10;530;170;10;170;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>552</x><y>444</y><w>480</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
 bg=black
 m1=1
-m2=0..n</panel_attributes><additional_attributes>380;10;230;10;230;120;10;120;10;180</additional_attributes></element></diagram>
+m2=0..n</panel_attributes><additional_attributes>380;10;230;10;230;120;10;120;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>96</x><y>72</y><w>192</w><h>120</h></coordinates><panel_attributes>&lt;&lt;enum&gt;&gt;
+Sexo
+--
+V
+M
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>276</x><y>96</y><w>288</w><h>84</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=black
+m1=1
+m2=0..n</panel_attributes><additional_attributes>220;10;90;10;90;40;10;40</additional_attributes></element></diagram>
