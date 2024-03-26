@@ -24,7 +24,6 @@ bg=Orange
 --
 -áreaDeInvestigación:str
 --
-+investigar()
 bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>0</y><w>600</w><h>204</h></coordinates><panel_attributes>Persona
 --
 -nombre:str
