@@ -1,18 +1,34 @@
+# -----------------------
+# EXCEPCIONES PERSONALIZADAS
+# -----------------------
+class ErrorDeValidacion(Exception):
+    """Excepción lanzada por errores en la validación de datos."""
+    pass
+
+class ErrorDeMatriculacion(Exception):
+    """Excepción lanzada al intentar matricular una asignatura incorrectamente."""
+    pass
+
+class ErrorDeAsignatura(Exception):
+    """Excepción lanzada por errores relacionados con las asignaturas."""
+    pass
+
+
+# -----------------------
+# CLASES PRINCIPALES
+# -----------------------
 class Persona:
-    def __init__(self,dni,nombre,direccion,sexo):
+    def __init__(self, dni, nombre, direccion, sexo):
         self.dni = dni
         self.nombre = nombre
         self.direccion = direccion
-        if sexo in ["V","M"]:
-            self.sexo = sexo
-        else:
-            raise ValueError("el sexo debe ser V(varon) o M(mujer)")
-    
-     
+        if sexo not in ["V", "M"]:
+            raise ErrorDeValidacion("El sexo debe ser 'V' (varón) o 'M' (mujer).")
+        self.sexo = sexo
+
     def __str__(self):
         return f"Persona: {self.nombre}, DNI: {self.dni}, Dirección: {self.direccion}, Sexo: {self.sexo}"
-        
-    #funciones de la clase
+
     def getNombre(self):
         return self.nombre
 
@@ -30,103 +46,88 @@ class Asignatura:
     def __init__(self, nombre, codigo):
         self.nombre = nombre
         self.codigo = codigo
-        
+
     def __str__(self):
         return f"Asignatura: {self.nombre}, Código: {self.codigo}"
 
-    #funciones de la clase
     def getNombre(self):
         return self.nombre
 
     def getCodigo(self):
         return self.codigo
-    
 
-#estudiante hereda de persona sus atributos
+
 class Estudiante(Persona):
-    def __init__(self, dni, nombre, direccion, sexo, AsignaturasMatriculadas):
-        #realizamos super().__init__ por la herencia
+    def __init__(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
         super().__init__(dni, nombre, direccion, sexo)
+        if not isinstance(asignaturasMatriculadas, list):
+            raise TypeError("Las asignaturas matriculadas deben estar en una lista.")
+        for asignatura in asignaturasMatriculadas:
+            if not isinstance(asignatura, Asignatura):
+                raise ErrorDeAsignatura("Todos los elementos de la lista deben ser instancias de la clase Asignatura.")
+        self.asignaturasMatriculadas = asignaturasMatriculadas
 
-        #control de errores para que la asignatura sea una lista
-        if type(AsignaturasMatriculadas) is not list:
-            raise TypeError("las asignaturas matriculadas deben estar en una lista")
-        #cada asignatura debe ser instancia de la clase Asignatura
-        for asignatura in AsignaturasMatriculadas:
-            if type(asignatura) is not Asignatura:
-                raise TypeError("Todos los elementos de la lista deben ser instancias de la clase Asignatura")
-        
-        self.asignaturasMatriculadas = AsignaturasMatriculadas
-    
-    #funciones de la clase
     def matricularAsignatura(self, asignatura):
+        if not isinstance(asignatura, Asignatura):
+            raise ErrorDeMatriculacion("El objeto a matricular debe ser una instancia de Asignatura.")
         self.asignaturasMatriculadas.append(asignatura)
-        return f"Se ha matriculado la asignatura {asignatura.getNombre()}"
 
     def eliminarAsignatura(self, asignatura):
         self.asignaturasMatriculadas.remove(asignatura)
-        return f"Se ha eliminado la asignatura {asignatura.getNombre()}"
-    
+
     def getAsignaturasMatriculadas(self):
         return self.asignaturasMatriculadas
 
 
-
 class MiembroDepartamento(Persona):
-    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas):
+    def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
         super().__init__(dni, nombre, direccion, sexo)
-        #control de errores
-        if departamento in ["DIIC", "DITEC", "DIS"]:
-            self.departamento = departamento
-        else:
-            raise ValueError("el departamento debe ser DIIC, DITEC o DIS")
-        
-        if type(AsignaturasImpartidas) is not list:
-            raise TypeError("las asignaturas impartidas deben estar en una lista")
-        #cada asignatura debe ser instancia de la clase Asignatura
-        for asignatura in AsignaturasImpartidas:
-            if type(asignatura) is not Asignatura:
-                raise TypeError("Todos los elementos de la lista deben ser instancias de la clase Asignatura")
-        self.AsignaturasImpartidas = AsignaturasImpartidas
+        if departamento not in ["DIIC", "DITEC", "DIS"]:
+            raise ErrorDeValidacion("El departamento debe ser DIIC, DITEC o DIS.")
+        self.departamento = departamento
+        if not isinstance(asignaturasImpartidas, list):
+            raise TypeError("Las asignaturas impartidas deben estar en una lista.")
+        for asignatura in asignaturasImpartidas:
+            if not isinstance(asignatura, Asignatura):
+                raise ErrorDeAsignatura("Todos los elementos de la lista deben ser instancias de la clase Asignatura.")
+        self.asignaturasImpartidas = asignaturasImpartidas
 
-    #funciones de la clase
     def getAsignaturasImpartidas(self):
-        return self.AsignaturasImpartidas
+        return self.asignaturasImpartidas
     
     def getDepartamento(self):
         return self.departamento
     
     def cambiarDepartamento(self, nuevo_departamento):
+        if nuevo_departamento not in ["DIIC", "DITEC", "DIS"]:
+            raise ErrorDeValidacion("El departamento debe ser DIIC, DITEC o DIS.")
         self.departamento = nuevo_departamento
-        return f"El departamento ha cambiado a {nuevo_departamento}"
-    
+
     def impartirAsignatura(self, asignatura):
-        self.AsignaturasImpartidas.append(asignatura)
-        return f"Se ha eliminado la asignatura {asignatura.getNombre()} a las asignaturas impartidas"
+        if not isinstance(asignatura, Asignatura):
+            raise ErrorDeMatriculacion("El objeto a impartir debe ser una instancia de Asignatura.")
+        self.asignaturasImpartidas.append(asignatura)
 
     def eliminarAsignaturaImpartida(self, asignatura):
-        self.AsignaturasImpartidas.remove(asignatura)
-        return f"Se ha eliminado la asignatura {asignatura.getNombre()} de asignaturas impartidas"
-
+        self.asignaturasImpartidas.remove(asignatura)
 
 
 class ProfesorTitular(MiembroDepartamento):
-    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion):
-        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas)
+    def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion):
+        super().__init__(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas)
         self.areaDeInvestigacion = areaDeInvestigacion
     
-    #funciones de la clase
     def getAreaDeInvestigacion(self):
-            return self.areaDeInvestigacion
-    
+        return self.areaDeInvestigacion
+
 
 class ProfesorAsociado(MiembroDepartamento):
-    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas):
-        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas)
+    pass
+
 
 class Investigador(ProfesorTitular):
-    def __init__(self, dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion):
-        super().__init__(dni, nombre, direccion, sexo, departamento, AsignaturasImpartidas, areaDeInvestigacion)
+    pass
+
         
 
    
