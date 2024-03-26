@@ -30,7 +30,7 @@ bg=Orange</panel_attributes><additional_attributes></additional_attributes></ele
 -nombre:str
 -dni:str
 -dirección:str
--sexo:char(H/M)
+-sexo:char(V/M)
 --
 +getNombre():str
 +getDNI():str
