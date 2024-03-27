@@ -115,7 +115,7 @@ class Investigador(MiembroDepartamento):
         return super().__str__() + f", Área de Investigación: {self.area_de_investigacion} , Departamento: {self.departamento}"
 
 
-class ProfesorTitular(Investigador, MiembroDepartamento):
+class ProfesorTitular(Investigador):
     def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas,area_de_investigacion):
         super().__init__(dni, nombre, direccion, sexo, departamento ,area_de_investigacion)
         if type(asignaturasImpartidas) is not list:
@@ -133,7 +133,7 @@ class ProfesorTitular(Investigador, MiembroDepartamento):
     def getAsignaturasImpartidas(self):
         return self.asignaturasImpartidas
     
-    def impartirAsignatura(self, asignatura):
+    def añadirAsignatura(self, asignatura):
         if not isinstance(asignatura, Asignatura):
                 raise ErrorDeAsignatura("Las asignaturas deben ser objetos de la clase Asignatura") 
         self.asignaturasImpartidas.append(asignatura)
@@ -164,7 +164,7 @@ class ProfesorAsociado(MiembroDepartamento):
     def getAsignaturasImpartidas(self):
         return self.asignaturasImpartidas
     
-    def impartirAsignatura(self, asignatura):
+    def añadirAsignatura(self, asignatura):
         if not isinstance(asignatura, Asignatura):
                 raise ErrorDeAsignatura("Las asignaturas deben ser objetos de la clase Asignatura") 
         self.asignaturasImpartidas.append(asignatura)
@@ -205,11 +205,11 @@ if __name__ == "__main__":
     print(estudiante1.matricularAsignatura(lengua))
     print(estudiante1.eliminarAsignaturaMatriculada(lengua))
 
-    print(profesor1.impartirAsignatura(historia))
+    print(profesor1.añadirAsignatura(historia))
     print(profesor1.getAsignaturasImpartidas())
     print(profesor1.eliminarAsignaturaImpartida(historia))
 
-    print(profesor2.impartirAsignatura(historia))
+    print(profesor2.añadirAsignatura(historia))
     print(profesor2.getAsignaturasImpartidas())
     print(profesor2.eliminarAsignaturaImpartida(historia))
 
