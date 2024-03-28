@@ -115,7 +115,7 @@ class ProfesorTitular(Investigador):
     def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas,area_de_investigacion):
         super().__init__(dni, nombre, direccion, sexo, departamento ,area_de_investigacion)
         if type(asignaturasImpartidas) is not list:
-            raise ErrorDeFormato("Las asignaturas matriculadas deben estar en formato lista")
+            raise ErrorDeFormato("Las asignaturas impartidas deben estar en formato lista")
         
         for asignatura in asignaturasImpartidas:
             if not isinstance(asignatura, Asignatura):
@@ -146,7 +146,7 @@ class ProfesorAsociado(MiembroDepartamento):
     def __init__(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
         super().__init__(dni, nombre, direccion, sexo, departamento)
         if type(asignaturasImpartidas) is not list:
-            raise ErrorDeFormato("Las asignaturas matriculadas deben estar en formato lista")
+            raise ErrorDeFormato("Las asignaturas impartidas deben estar en formato lista")
         
         for asignatura in asignaturasImpartidas:
             if not isinstance(asignatura, Asignatura):
