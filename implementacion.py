@@ -5,10 +5,6 @@ class ErrorDeFormato(Exception):
     """Excepción lanzada por errores en el formato de los datos."""
     pass
 
-class ErrorDeMatriculacion(Exception):
-    """Excepción lanzada al intentar matricular una asignatura incorrectamente."""
-    pass
-
 class ErrorDeAsignatura(Exception):
     """Excepción lanzada por errores relacionados con las asignaturas."""
     pass
