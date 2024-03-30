@@ -9,6 +9,14 @@ class ErrorDeAsignatura(Exception):
     """Excepción lanzada por errores relacionados con las asignaturas."""
     pass
 
+class ErrorDeDepartamento(Exception):
+    """Excepción lanzada por errores relacionados con los departamentos."""
+    pass
+
+class ErrorDeDNI(Exception):
+    """Excepción lanzada por errores relacionados con el DNI."""
+    pass
+
 
 # -----------------------
 # CLASES PRINCIPALES
@@ -57,7 +65,7 @@ class Estudiante(Persona):
     def __init__(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
         super().__init__(dni, nombre, direccion, sexo)
         if type(asignaturasMatriculadas) is not list:
-            raise ErrorDeFormato("Las asignaturas matriculadas deben estar en formato lista")
+            raise ErrorDeAsignatura("Las asignaturas matriculadas deben estar en formato lista")
         
         for asignatura in asignaturasMatriculadas:
             if not isinstance(asignatura, Asignatura):
@@ -85,7 +93,7 @@ class MiembroDepartamento(Persona):
     def __init__(self, dni, nombre, direccion, sexo, departamento):
         super().__init__(dni, nombre, direccion, sexo)
         if departamento not in ["DIIC","DITEC","DIS"]:
-            raise ErrorDeFormato("el departamento debe ser DIIC, DITEC o DIS")
+            raise ErrorDeDepartamento("el departamento debe ser DIIC, DITEC o DIS")
         self.departamento = departamento
     
     def getDepartamento(self):
@@ -95,7 +103,7 @@ class MiembroDepartamento(Persona):
         if nuevo_departamento in ["DIIC","DITEC","DIS"]:
             self.departamento = nuevo_departamento
             return f"El departamento ha cambiado a {nuevo_departamento}"
-        raise ErrorDeFormato("el departamento debe ser DIIC, DITEC o DIS")
+        raise ErrorDeDepartamento("el departamento debe ser DIIC, DITEC o DIS")
 
 
 
@@ -129,7 +137,7 @@ class ProfesorTitular(Investigador):
     def getAsignaturasImpartidas(self):
         return self.asignaturasImpartidas
     
-    def añadirAsignatura(self, asignatura):
+    def añadirAsignaturaImpartida(self, asignatura):
         if not isinstance(asignatura, Asignatura):
                 raise ErrorDeAsignatura("Las asignaturas deben ser objetos de la clase Asignatura") 
         self.asignaturasImpartidas.append(asignatura)
@@ -160,7 +168,7 @@ class ProfesorAsociado(MiembroDepartamento):
     def getAsignaturasImpartidas(self):
         return self.asignaturasImpartidas
     
-    def añadirAsignatura(self, asignatura):
+    def añadirAsignaturaImpartida(self, asignatura):
         if not isinstance(asignatura, Asignatura):
                 raise ErrorDeAsignatura("Las asignaturas deben ser objetos de la clase Asignatura") 
         self.asignaturasImpartidas.append(asignatura)
@@ -171,8 +179,107 @@ class ProfesorAsociado(MiembroDepartamento):
         return f"Se ha eliminado la asignatura {asignatura.getNombre()} de las asignaturas impartidas"
 
 
+#clase que administra a los miembros de la universidad (estudiantes y miembros de departamento)
+class Universidad:
+    def __init__(self, nombre, direccion):
+        self.nombre = nombre
+        self.direccion = direccion
+        self.listado_dnis = []
+        self.listado_estudiantes = []
+        self.listado_profesores = []
+        self.listado_investigadores = []
 
+    def getMiembroDepartamento(self, dni):
+        for miembro in self.listado_profesores + self.listado_investigadores:
+            if miembro.getDNI() == dni:
+                return miembro
+        return None
+
+    def getEstudiante(self, dni):
+        for estudiante in self.listado_estudiantes:
+            if estudiante.getDNI() == dni:
+                return estudiante
+        return None
+
+    def incorporar_estudiante(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
+        if dni in self.listado_dnis:
+            raise ErrorDeDNI("El DNI ya está en uso")
+        estudiante = Estudiante(dni, nombre, direccion, sexo, asignaturasMatriculadas)
+        self.listado_estudiantes.append(estudiante)
+        self.listado_dnis.append(dni)
+
+    def incorporar_profesor_asociado(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
+        if dni in self.listado_dnis:
+            raise ErrorDeDNI("El DNI ya está en uso")
+        profesor_asociado = ProfesorAsociado(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas)
+        self.listado_profesores.append(profesor_asociado)
+        self.listado_investigadores.append(profesor_asociado)
+        self.listado_dnis.append(dni)
+    #cuando añado a una persona como profesor titular tambien añado a esa persona como investigador
+        
+    def incorporar_investigador_y_profesor_titular(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion):
+        if dni in self.listado_dnis:
+            raise ErrorDeDNI("El DNI ya está en uso")
+        profesor_titular = ProfesorTitular(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion)
+        investigador = Investigador(dni, nombre, direccion, sexo, departamento, areaDeInvestigacion)
+        self.listado_profesores.append(profesor_titular)
+        self.listado_investigadores.append(investigador)
+        self.listado_dnis.append(dni)
+
+    #al eliminar un investigador tambien elimino al profesor titular
+    def eliminar_investigador_y_profesor_titular(self, dni):
+        for profesor in self.listado_profesores:
+            if isinstance(profesor, ProfesorTitular) and profesor.getDNI() == dni:
+                self.listado_profesores.remove(profesor)
+
+        for investigador in self.listado_investigadores:
+                if isinstance(investigador, Investigador) and investigador.getDNI() == dni:
+                    self.listado_investigadores.remove(investigador)
+                    self.listado_dnis.remove(dni)
+                    return f"Profesor titular e investigador con dni: {dni} eliminado"
+
+        raise ErrorDeDNI("No se encontró un profesor titular e investigador con ese DNI")
+
+    def eliminarProfesor(self, dni):
+        for profesor in self.listado_profesores:
+            if profesor.getDNI() == dni:
+                self.listado_profesores.remove(profesor)
+                self.listado_dnis.remove(dni)
+                return f"Profesor con DNI {dni} eliminado"
+        raise ErrorDeDNI("No se encontró un profesor con ese DNI")
+
+    def eliminarEstudiante(self, dni):
+        for estudiante in self.listado_estudiantes:
+            if estudiante.getDNI() == dni:
+                self.listado_estudiantes.remove(estudiante)
+                self.listado_dnis.remove(dni)
+                return f"Estudiante con DNI {dni} eliminado"
+        raise ErrorDeDNI("No se encontró un estudiante con ese DNI")
     
+    def showEstudiantes(self):
+        print("LISTADO DE ESTUDIANTES")
+        for estudiante in self.listado_estudiantes:
+            print("Nombre: ",estudiante.getNombre(), ", DNI:", estudiante.getDNI())
+
+    def showProfesores(self):
+        print("LISTADO DE PROFESORES")
+        for profesor in self.listado_profesores:
+            print("Nombre: ",profesor.getNombre(), ", DNI:", profesor.getDNI())
+
+    def showInvestigadores(self):
+        print("LISTADO DE INVESTIGADORES")
+        for investigador in self.listado_investigadores:
+            print("Nombre: ",investigador.getNombre(), ", DNI:", investigador.getDNI())
+    
+    def __str__(self):
+        return f"Nombre: {self.nombre}, Dirección: {self.direccion}"
+    
+    
+    
+    
+
+
+
 ########PRUEBAS######## 
 if __name__ == "__main__":
     # Creación de asignaturas
@@ -181,34 +288,21 @@ if __name__ == "__main__":
     lengua = Asignatura("Lengua", "LEN101")
     historia = Asignatura("Historia", "HIS101")
 
-    # Creación de estudiantes
-    estudiante1 = Estudiante("33J", "Juanjo", "Avenida Juan Carlos 1", "V", [matematicas, fisica])
-    estudiante2 = Estudiante("66M", "M.Ángeles", "Calle Ponzoa", "M", [fisica, historia])
+    universidad = Universidad("Universidad de murcua", "Calle de la Universidad, 1")
 
+    universidad.incorporar_estudiante("0000000A", "Javier Ruiz", "Calle de tomate", "V", [matematicas, fisica])
+    universidad.incorporar_estudiante("11111111B", "juanjo perez", "Calle formula 1", "V", [lengua, historia])
+    universidad.incorporar_estudiante("22222222C", "fernando alonso", "Calle murcia", "V", [matematicas, lengua])
 
-    # Creación de profesores y asignación de asignaturas
-    profesor1 = ProfesorTitular("101P", "Carlos", "Calle 2", "V", "DIIC", [matematicas, lengua], "Historia Moderna")
-    profesor2 = ProfesorAsociado("102P", "Ana", "Calle 3", "M", "DITEC", [matematicas, lengua])
-    investigador = Investigador("103P", "Laura", "pitopito", "M", "DIIC", "Estadistica")
-
-    print(estudiante1)
-    print(estudiante2)
-    print(profesor1)
-    print(profesor2)
-    print(investigador)
-
-
-    print(estudiante1.matricularAsignatura(lengua))
-    print(estudiante1.eliminarAsignaturaMatriculada(lengua))
-
-    print(profesor1.añadirAsignatura(historia))
+    universidad.incorporar_profesor_asociado("33333333D", "paco", "Calle de la Universidad, 1", "V", "DIS", [fisica])
+    profesor1 = universidad.getMiembroDepartamento("33333333D")
+    print(profesor1.añadirAsignaturaImpartida(matematicas))
     print(profesor1.getAsignaturasImpartidas())
-    print(profesor1.eliminarAsignaturaImpartida(historia))
 
-    print(profesor2.añadirAsignatura(historia))
-    print(profesor2.getAsignaturasImpartidas())
-    print(profesor2.eliminarAsignaturaImpartida(historia))
+    universidad.incorporar_investigador_y_profesor_titular("44444444E", "pepe", "Calle de la Universidad, 1", "V", "DITEC", [fisica,matematicas], "Ciencia de datos")
+    universidad.incorporar_investigador_y_profesor_titular("55555555F", "juan", "Calle de la Universidad, 1", "V", "DIS", [fisica,matematicas], "Ciencia de datos")
 
-    print(investigador.cambiarDepartamento("DITEC"))
+    print(universidad.eliminar_investigador_y_profesor_titular("44444444E"))
 
-
+    universidad.showEstudiantes()
+    universidad.showProfesores()

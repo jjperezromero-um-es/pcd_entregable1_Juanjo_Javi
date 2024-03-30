@@ -1,0 +1,115 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1048</x><y>264</y><w>120</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+Departamento
+--
+DIIC
+DITEC
+DIS
+bg=Orange
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>640</y><w>176</w><h>112</h></coordinates><panel_attributes>Asignatura
+--
+-Nombre:str
+-CodigoAsignatura:str
+--
++getNombre():str
++getCodigo():str
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>768</x><y>464</y><w>184</w><h>48</h></coordinates><panel_attributes>Investigador
+--
+-AreaDeInvestigacion:str
+--
+getAreaDeInvestigacion:str
+bg=Orange
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>456</x><y>264</y><w>328</w><h>88</h></coordinates><panel_attributes>&lt;&lt;abstract&gt;&gt;
+MiembroDepartamento
+--
+-departamento:Departamento 
+--
++getDepartamento():str
++cambiarDepartamento(nuevoDepartamento:Departamento):str
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>352</x><y>464</y><w>296</w><h>88</h></coordinates><panel_attributes>ProfesorAsociado
+--
+-asignaturasImpartidas:List of Asignatura
+--
++getAsignaturasImpartidas():List of Asignatura
++añadirAsignaturaImpartida(asignatura:Asignatura):str
++eliminarAsignaturaImpartida(asignatura:Asignatura):str
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>696</x><y>648</y><w>304</w><h>96</h></coordinates><panel_attributes>ProfesorTitular
+--
+-asignaturasImpartidas:List of Asignatura
+--
++getAsignaturasImpartidas():List of Asignatura
++añadirAsignaturaImpartida(asignatura:Asignatura):str
++eliminarAsignaturaImpartida(asignatura:Asignatura):str
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>424</x><y>0</y><w>224</w><h>144</h></coordinates><panel_attributes>&lt;&lt;abstract&gt;&gt;
+Persona 
+--
+-dni: str
+-Nombre:str
+-Dirección:str
+-sexo:Sexo
+--
++getNombre():str
++getdni():str
++getDirección():str
++getSexo():char
+bg=Orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>776</x><y>296</y><w>288</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes><additional_attributes>10;10;340;10</additional_attributes></element><element><id>Relation</id><coordinates><x>144</x><y>552</y><w>112</w><h>184</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1..*</panel_attributes><additional_attributes>10;10;10;200;120;200</additional_attributes></element><element><id>Relation</id><coordinates><x>408</x><y>544</y><w>88</w><h>168</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1..*</panel_attributes><additional_attributes>70;10;70;180;10;180</additional_attributes></element><element><id>Relation</id><coordinates><x>248</x><y>64</y><w>192</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1</panel_attributes><additional_attributes>220;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>920</x><y>1048</y><w>616</w><h>232</h></coordinates><panel_attributes>Universidad
+--
++Nombre:str
++Dirección:str
+-listado_dnis: list of str
+-listado_estudiantes:list of Estudiante
+-listado_profesores: list of ProfesorTitular, ProfesorAsociado
+-listado_investigadores: list of Investigadores
+--
++getMiembroDepartamento(dni):ProfesorTitular, ProfesorAsociado, Investigador
++getEstudiante(dni): Estudiante
++incorporar_estudiante(dni, nombre, direccion, sexo, AsignaturasMatriculadas):
++incorporar_profesor_asociado(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
++incorporar_investigador_y_profesor_titular(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas,AreaDeInvestigacion)
++eliminar_investigador_y_profesor_titular(dni):
++eliminar_profesor_asociado(dni):
++eliminarEstudiante(dni):
++showProfesores: str
++showEstudiantes: str
++showInvestigadores: str
+bg=Orange
+
+
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>104</x><y>552</y><w>832</w><h>664</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1</panel_attributes><additional_attributes>1020;800;10;800;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>408</x><y>696</y><w>304</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1..*</panel_attributes><additional_attributes>360;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>88</x><y>32</y><w>168</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+Sexo
+--
+V
+M
+bg=Orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>472</y><w>272</w><h>88</h></coordinates><panel_attributes>Estudiante
+--
+-AsignaturasMatriculadas:List of Asignatura
+--
++getAsignaturasMatriculadas():List of Asignatura
++matricularAsignatura(asignatura:Asignatura):str
++eliminarAsignatura(asignatura:Asignatura):str
+bg=Orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>664</x><y>344</y><w>200</w><h>136</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;230;150</additional_attributes></element><element><id>Relation</id><coordinates><x>144</x><y>136</y><w>376</w><h>352</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>450;10;10;420</additional_attributes></element><element><id>Relation</id><coordinates><x>552</x><y>136</y><w>128</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;140;160</additional_attributes></element><element><id>Relation</id><coordinates><x>448</x><y>344</y><w>216</w><h>136</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>496</x><y>544</y><w>440</w><h>640</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1</panel_attributes><additional_attributes>530;770;10;770;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>840</x><y>736</y><w>96</w><h>416</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1</panel_attributes><additional_attributes>100;490;10;490;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>944</x><y>480</y><w>216</w><h>584</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1</panel_attributes><additional_attributes>230;710;230;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>840</x><y>504</y><w>24</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element></diagram>
