@@ -215,8 +215,8 @@ class Universidad:
         self.listado_profesores.append(profesor_asociado)
         self.listado_investigadores.append(profesor_asociado)
         self.listado_dnis.append(dni)
+
     #cuando añado a una persona como profesor titular tambien añado a esa persona como investigador
-        
     def incorporar_investigador_y_profesor_titular(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion):
         if dni in self.listado_dnis:
             raise ErrorDeDNI("El DNI ya está en uso")
