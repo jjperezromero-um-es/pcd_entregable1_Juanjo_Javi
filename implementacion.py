@@ -112,7 +112,7 @@ class Investigador(MiembroDepartamento):
         super().__init__(dni, nombre, direccion, sexo, departamento)
         self.area_de_investigacion = area_de_investigacion
 
-    def get_area_de_investigacion(self):
+    def getAreaDeInvestigacion(self):
         return self.area_de_investigacion
     
     def __str__(self):
@@ -201,14 +201,14 @@ class Universidad:
                 return estudiante
         return None
 
-    def incorporar_estudiante(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
+    def incorporarEstudiante(self, dni, nombre, direccion, sexo, asignaturasMatriculadas):
         if dni in self.listado_dnis:
             raise ErrorDeDNI("El DNI ya está en uso")
         estudiante = Estudiante(dni, nombre, direccion, sexo, asignaturasMatriculadas)
         self.listado_estudiantes.append(estudiante)
         self.listado_dnis.append(dni)
 
-    def incorporar_profesor_asociado(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
+    def incorporarProfesorAsociado(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas):
         if dni in self.listado_dnis:
             raise ErrorDeDNI("El DNI ya está en uso")
         profesor_asociado = ProfesorAsociado(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas)
@@ -217,7 +217,7 @@ class Universidad:
         self.listado_dnis.append(dni)
 
     #cuando añado a una persona como profesor titular tambien añado a esa persona como investigador
-    def incorporar_investigador_y_profesor_titular(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion):
+    def incorporarInvestigadorYProfesorTitular(self, dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion):
         if dni in self.listado_dnis:
             raise ErrorDeDNI("El DNI ya está en uso")
         profesor_titular = ProfesorTitular(dni, nombre, direccion, sexo, departamento, asignaturasImpartidas, areaDeInvestigacion)
@@ -227,7 +227,7 @@ class Universidad:
         self.listado_dnis.append(dni)
 
     #al eliminar un investigador tambien elimino al profesor titular
-    def eliminar_investigador_y_profesor_titular(self, dni):
+    def eliminarInvestigadorYProfesorTitular(self, dni):
         for profesor in self.listado_profesores:
             if isinstance(profesor, ProfesorTitular) and profesor.getDNI() == dni:
                 self.listado_profesores.remove(profesor)
@@ -240,7 +240,7 @@ class Universidad:
 
         raise ErrorDeDNI("No se encontró un profesor titular e investigador con ese DNI")
 
-    def eliminarProfesor(self, dni):
+    def eliminarProfesorAsociado(self, dni):
         for profesor in self.listado_profesores:
             if profesor.getDNI() == dni:
                 self.listado_profesores.remove(profesor)
