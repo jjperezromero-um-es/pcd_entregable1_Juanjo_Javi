@@ -281,17 +281,52 @@ class Universidad:
 
 ########PRUEBAS######## 
 if __name__ == "__main__":
-    # Creación de asignaturas
+    #######################################################################################################################################
+    print('\n\n-----Creación de asignaturas-----')
+    
     matematicas = Asignatura("Matemáticas", "MAT101")
     fisica = Asignatura("Física", "FIS101")
     lengua = Asignatura("Lengua", "LEN101")
     historia = Asignatura("Historia", "HIS101")
-
+    print("Código de matemáticas: ", matematicas.getCodigo())
+    print('Datos de la asignatura de física: ', fisica)
+    
+    #######################################################################################################################################
+    print('\n\n-----Creación de Miembros de departamento(profesores titulares que son a su vez investigadores y profesores asociados) y pruebas-----')
+    
+    ProfesorTitular1 = ProfesorTitular("123345A", "Juanito", "Calle 33, 2", "V", "DIS", [fisica, matematicas], "Física molecular")
+    ProfesorAsociado1 = ProfesorAsociado("5566778B", "Pedrito", "Calle 66, 3", "V", "DIS", [historia])
+    ProfesorTitular1.eliminarAsignaturaImpartida(fisica)
+    for asignaturas in ProfesorTitular1.getAsignaturasImpartidas():
+        print('Asignaturas profesor titular 1:',asignaturas.getNombre())
+    print('Área de investigación del Profesor Titular 1 es:',ProfesorTitular1.getAreaDeInvestigacion())
+    ProfesorAsociado1 .añadirAsignaturaImpartida(matematicas)
+    print('\nAsignaturas profesor Asociado 1:')
+    for asignaturas in ProfesorAsociado1.getAsignaturasImpartidas():
+        print(asignaturas.getNombre())
+    print('Departamento inicial del profesor asociado 1:',ProfesorAsociado1.getDepartamento())
+    ProfesorAsociado1.cambiarDepartamento("DITEC")
+    print('Departamento nuevo del profesor asociado 1:',ProfesorAsociado1.getDepartamento())
+    
+    #######################################################################################################################################
+    print('\n\n-----Creación de Estudiantes y pruebas-----')
+    
+    Estudiante33 = Estudiante("33333333D", "Juanpe", "Calle 33, 2", "V", [fisica]) 
+    Estudiante33.matricularAsignatura(historia)
+    print('Asignaturas matriculadas de',Estudiante33.getNombre(),':')
+    for asignaturas in Estudiante33.getAsignaturasMatriculadas():
+        print(asignaturas.getNombre())
+        
+    print('Datos del estudiante 33:',Estudiante33)
+    
+    #######################################################################################################################################
+    print('\n\n-----Pruebas universidad con sus funiones-----')
+    
     universidad = Universidad("Universidad de murcua", "Calle de la Universidad, 1")
-
     universidad.incorporarEstudiante("0000000A", "Javier Ruiz", "Calle de tomate", "V", [matematicas, fisica])
     universidad.incorporarEstudiante("11111111B", "juanjo perez", "Calle formula 1", "V", [lengua, historia])
     universidad.incorporarEstudiante("22222222C", "fernando alonso", "Calle murcia", "V", [matematicas, lengua])
+    print(universidad.getEstudiante("22222222C"))
 
     universidad.incorporarProfesorAsociado("33333333D", "paco", "Calle de la Universidad, 1", "V", "DIS", [fisica])
     profesor1 = universidad.getMiembroDepartamento("33333333D")
@@ -305,6 +340,8 @@ if __name__ == "__main__":
     universidad.incorporarInvestigadorYProfesorTitular("55555555F", "juan", "Calle de la Universidad, 1", "V", "DIS", [fisica,matematicas], "Ciencia de datos")
 
     print('\n',universidad.eliminarInvestigadorYProfesorTitular("44444444E"))
-
+    print('\n',universidad.eliminarEstudiante("0000000A"))
+    print('\n')
     universidad.showEstudiantes()
+    print('\n')
     universidad.showProfesores()
