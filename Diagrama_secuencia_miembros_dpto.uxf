@@ -1,0 +1,19 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLGeneric</id><coordinates><x>40</x><y>50</y><w>100</w><h>30</h></coordinates><panel_attributes>Universidad
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>70</y><w>30</w><h>430</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;410</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>290</x><y>50</y><w>150</w><h>30</h></coordinates><panel_attributes>MiembroDepartamento
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>520</x><y>50</y><w>100</w><h>30</h></coordinates><panel_attributes>Departamento
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>70</y><w>30</w><h>430</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;410</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>70</y><w>30</w><h>430</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;410</additional_attributes></element><element><id>Relation</id><coordinates><x>730</x><y>70</y><w>30</w><h>430</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;410</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>690</x><y>50</y><w>100</w><h>30</h></coordinates><panel_attributes>Asignatura
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>120</y><w>300</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+incorporar_profesor_asociado
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>160</y><w>300</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+eliminar_profesor_asociado
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>210</y><w>300</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+incorporar_investigador_y_profesor_titular
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>270</y><w>300</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+eliminar_investigador_y_profesor_titular
+</panel_attributes><additional_attributes>280;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>310</y><w>240</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+cambiarDepartamento
+</panel_attributes><additional_attributes>220;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>380</y><w>410</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+añadirAsignaturaImpartida
+</panel_attributes><additional_attributes>390;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>350</x><y>420</y><w>410</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-
+eliminarAsignaturaImpartida
+</panel_attributes><additional_attributes>390;20;10;20</additional_attributes></element></diagram>
