@@ -106,7 +106,6 @@ class MiembroDepartamento(Persona):
         raise ErrorDeDepartamento("el departamento debe ser DIIC, DITEC o DIS")
 
 
-
 class Investigador(MiembroDepartamento):
     def __init__(self, dni, nombre, direccion, sexo, departamento, area_de_investigacion):
         super().__init__(dni, nombre, direccion, sexo, departamento)
@@ -290,19 +289,22 @@ if __name__ == "__main__":
 
     universidad = Universidad("Universidad de murcua", "Calle de la Universidad, 1")
 
-    universidad.incorporar_estudiante("0000000A", "Javier Ruiz", "Calle de tomate", "V", [matematicas, fisica])
-    universidad.incorporar_estudiante("11111111B", "juanjo perez", "Calle formula 1", "V", [lengua, historia])
-    universidad.incorporar_estudiante("22222222C", "fernando alonso", "Calle murcia", "V", [matematicas, lengua])
+    universidad.incorporarEstudiante("0000000A", "Javier Ruiz", "Calle de tomate", "V", [matematicas, fisica])
+    universidad.incorporarEstudiante("11111111B", "juanjo perez", "Calle formula 1", "V", [lengua, historia])
+    universidad.incorporarEstudiante("22222222C", "fernando alonso", "Calle murcia", "V", [matematicas, lengua])
 
-    universidad.incorporar_profesor_asociado("33333333D", "paco", "Calle de la Universidad, 1", "V", "DIS", [fisica])
+    universidad.incorporarProfesorAsociado("33333333D", "paco", "Calle de la Universidad, 1", "V", "DIS", [fisica])
     profesor1 = universidad.getMiembroDepartamento("33333333D")
     print(profesor1.añadirAsignaturaImpartida(matematicas))
-    print(profesor1.getAsignaturasImpartidas())
+    asignaturaprofesor1 = profesor1.getAsignaturasImpartidas()
+    print('Asignaturas profesor 1:')
+    for asignatura in asignaturaprofesor1:
+        print(asignatura.getNombre())
 
-    universidad.incorporar_investigador_y_profesor_titular("44444444E", "pepe", "Calle de la Universidad, 1", "V", "DITEC", [fisica,matematicas], "Ciencia de datos")
-    universidad.incorporar_investigador_y_profesor_titular("55555555F", "juan", "Calle de la Universidad, 1", "V", "DIS", [fisica,matematicas], "Ciencia de datos")
+    universidad.incorporarInvestigadorYProfesorTitular("44444444E", "pepe", "Calle de la Universidad, 1", "V", "DITEC", [fisica,matematicas], "Ciencia de datos")
+    universidad.incorporarInvestigadorYProfesorTitular("55555555F", "juan", "Calle de la Universidad, 1", "V", "DIS", [fisica,matematicas], "Ciencia de datos")
 
-    print(universidad.eliminar_investigador_y_profesor_titular("44444444E"))
+    print('\n',universidad.eliminarInvestigadorYProfesorTitular("44444444E"))
 
     universidad.showEstudiantes()
     universidad.showProfesores()
