@@ -9,7 +9,7 @@ def test_creacion_persona():
     assert persona.getDireccion() == "Calle 2"
     assert persona.getSexo() == "V"
     
-    with pytest.raises(Exception):
+    with pytest.raises(ErrorDeFormato):
         Persona("33J", "Juano", "Calle 2", "K")  # Comprobamos que salta el error de sexo inválido
 
 def test_creacion_asignatura():
@@ -30,7 +30,7 @@ def test_estudiante_eliminar_asignatura():
     assert fisica not in estudiante.getAsignaturasMatriculadas() #Comprobamos que fisica ya no esté 
 
 def test_error_al_crear_estudiante_con_asignaturas_no_lista():
-    with pytest.raises(Exception):
+    with pytest.raises(ErrorDeAsignatura):
         Estudiante("003X", "Carlos", "Calle Murcia", "V", "Matemáticas")  # Comprobamos que salta un error ya que no es una lista
 
 def test_miembro_departamento_creacion():
@@ -39,7 +39,7 @@ def test_miembro_departamento_creacion():
     assert miembro.getDireccion() == "Calle 5"
     assert miembro.getDepartamento() == "DIIC"
     
-    with pytest.raises(Exception):
+    with pytest.raises(ErrorDeDepartamento):
         MiembroDepartamento("456X", "Laura", "Calle 5", "M", "MATES") #Aquí en el departamento hemos puesto Mates que obviamente no está entre los departamentos posibles y por lo tanto comprobamos que tiene que darnos el error
 
 def test_miembro_departamento_cambiar_departamento():
@@ -47,9 +47,9 @@ def test_miembro_departamento_cambiar_departamento():
     miembro.cambiarDepartamento("DIS")
     assert miembro.getDepartamento() == "DIS" #Comprobamos que se ha cambiado correctament el departamento
     
-def test_error_al_crear_miembro_con_asignatura_sin_ser_lista():
-    with pytest.raises(Exception):
-        MiembroDepartamento("456M", "M.Ángeles 1", "Calle 12", "M", "DIS", "Física") #Aquí donde he puesto 'Física' debería de ser [Física] y por lo tanto comprobamos que de error
+def test_error_al_crear_profesor_asociado_con_asignatura_sin_ser_lista():
+    with pytest.raises(ErrorDeFormato):
+        ProfesorAsociado("456M", "M.Ángeles 1", "Calle 12", "M", "DIS", "Física") #Aquí donde he puesto 'Física' debería de ser [Física] y por lo tanto comprobamos que de error
 
 def test_profesor_titular_area_investigacion():
     profesor = ProfesorTitular("100X", "Javi 2", "Calle 8", "V", "DIIC", [], "Robótica") #Comprobación de la correcta creación de un profesor titular
@@ -77,7 +77,6 @@ def creación_universidad():
     universidad = Universidad("Universidad de Prueba", "Calle 33")
     assert universidad.getNombre() == "Universidad de Prueba"
     assert universidad.getDireccion() == "Calle 33"
-
 
 def test_incorporar_y_eliminar_estudiante():
     universidad = Universidad("Universidad de Murcia", "Calle España")
